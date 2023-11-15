@@ -5,15 +5,82 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Interaction/EnemyInterface.h"
 #include "Stats/Stats.h"
 
 DECLARE_STATS_GROUP(TEXT("Move"), STATGROUP_Move, STATCAT_Advanced);
-
 DECLARE_CYCLE_STAT(TEXT("Move"), STAT_Move, STATGROUP_Move);
 
 ALGPlayerController::ALGPlayerController()
 {
 	bReplicates = true;
+}
+
+void ALGPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	CursorTrace();
+}
+
+void ALGPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);
+	if (!CursorHit.bBlockingHit)
+	{
+		return;
+	}
+	
+	LastActor = ThisActor;
+	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
+	
+	/**
+	 * Line trace from cursor. There are several scenarios:
+	 * A. LastActor is null && ThisActor is null
+	 *		- Do nothing
+	 *	B. LastActor is null && ThisActor is valid
+	 *		- Highlight ThisActor
+	 *	C. LastActor is valid && ThisActor is null
+	 *		- UnHighlight LastActor
+	 *	D. Both actor are valid, but LastActor != ThisActor
+	 *		- UnHighlight LastActor, and  Highlight ThisActor
+	 *	E.Both actor are valid, LastActor == ThisActor
+	 *		- Do nothing
+	 */
+
+	if (LastActor == nullptr)
+	{
+		if (ThisActor != nullptr)
+		{
+			// Case B
+			ThisActor->HighLightActor();
+		}
+		else
+		{
+			// Case A, do nothing
+		}
+	}
+	else
+	{
+		if (ThisActor == nullptr)
+		{
+			// Case C
+			LastActor->UnHighLightActor();
+		}
+		else
+		{
+			if (LastActor!=ThisActor)
+			{
+				// Case D
+				LastActor->UnHighLightActor();
+				ThisActor->HighLightActor();
+			}
+			else
+			{
+				// Case E, do nothing
+			}
+		}
+	}
 }
 
 void ALGPlayerController::BeginPlay()

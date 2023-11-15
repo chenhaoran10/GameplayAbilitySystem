@@ -15,6 +15,10 @@ class LG_API ALGEnemy : public ALGCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
 public:
+	ALGEnemy();
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsHighlight;
 };

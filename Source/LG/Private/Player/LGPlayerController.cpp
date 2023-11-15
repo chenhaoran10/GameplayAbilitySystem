@@ -8,6 +8,7 @@
 #include "Stats/Stats.h"
 
 DECLARE_STATS_GROUP(TEXT("Move"), STATGROUP_Move, STATCAT_Advanced);
+
 DECLARE_CYCLE_STAT(TEXT("Move"), STAT_Move, STATGROUP_Move);
 
 ALGPlayerController::ALGPlayerController()
@@ -62,17 +63,21 @@ void ALGPlayerController::Move(const FInputActionValue& InputActionValue)
 
 // void ALGPlayerController::Move(const FInputActionValue& InputActionValue)
 // {
-// 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
-// 	const FRotator Rotation = GetControlRotation();
-// 	const float Yaw = FMath::DegreesToRadians(Rotation.Yaw); // 将偏航角从度转换为弧度
-//
-// 	const FVector ForwardDirection(FMath::Cos(Yaw), FMath::Sin(Yaw), 0.f); // 使用余弦和正弦函数计算前进方向
-// 	const FVector RightDirection(-FMath::Sin(Yaw), FMath::Cos(Yaw), 0.f); // 使用余弦和正弦函数计算右侧方向
-//
-// 	if (APawn* ControlledPawn = GetPawn())
+// 	SCOPE_CYCLE_COUNTER(STAT_Move);
+// 	for (int i = 0; i < 99; ++i)
 // 	{
-// 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
-// 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+// 		const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
+// 		const FRotator Rotation = GetControlRotation();
+// 		const float Yaw = FMath::DegreesToRadians(Rotation.Yaw); // 将偏航角从度转换为弧度
+//
+// 		const FVector ForwardDirection(FMath::Cos(Yaw), FMath::Sin(Yaw), 0.f); // 使用余弦和正弦函数计算前进方向
+// 		const FVector RightDirection(-FMath::Sin(Yaw), FMath::Cos(Yaw), 0.f); // 使用余弦和正弦函数计算右侧方向
+//
+// 		if (APawn* ControlledPawn = GetPawn())
+// 		{
+// 			ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
+// 			ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+// 		}
 // 	}
 // }
 //

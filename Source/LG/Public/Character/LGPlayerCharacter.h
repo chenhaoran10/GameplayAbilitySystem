@@ -13,5 +13,6 @@ UCLASS()
 class LG_API ALGPlayerCharacter : public ALGCharacterBase
 {
 	GENERATED_BODY()
-	
+public:
+	ALGPlayerCharacter();
 };

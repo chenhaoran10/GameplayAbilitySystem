@@ -12,6 +12,7 @@ ALGPlayerState::ALGPlayerState()
 
 	AbilitySystemComponent = CreateDefaultSubobject<ULGAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
 	AttributeSet = CreateDefaultSubobject<ULGAttributeSet>("AttributeSet");	
 }

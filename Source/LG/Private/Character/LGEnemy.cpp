@@ -12,6 +12,7 @@ ALGEnemy::ALGEnemy()
 
 	AbilitySystemComponent = CreateDefaultSubobject<ULGAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	AttributeSet = CreateDefaultSubobject<ULGAttributeSet>("AttributeSet");	
 }
@@ -24,4 +25,10 @@ void ALGEnemy::HighLightActor()
 void ALGEnemy::UnHighLightActor()
 {
 	bIsHighlight = false;
+}
+
+void ALGEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	AbilitySystemComponent->InitAbilityActorInfo(this,this);
 }

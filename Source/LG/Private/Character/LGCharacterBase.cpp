@@ -13,6 +13,11 @@ ALGCharacterBase::ALGCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+UAbilitySystemComponent* ALGCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 void ALGCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
